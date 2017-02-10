@@ -14,6 +14,6 @@ and should serve as the location for all dotfiles that belong in the $HOME direc
 ### How?
 
 Simply place any given configuration file in the dotfiles directory with the format
-'basename.symlink', run 'bash dotfiles/bootstrap' and a symlink '.basename' will be
+`basename.symlink`, run `bash dotfiles/bootstrap` and a symlink `.basename` will be
 created.
 
