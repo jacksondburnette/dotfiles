@@ -1,0 +1,25 @@
+# general
+alias ..="cd .."
+alias ...="cd ../.."
+alias c="clear"
+alias ls="ls --color=auto"           # auto color
+alias ll="ls -la --color=auto"       # long list format
+alias l.="ls -ld .* --color=auto"    # show hidden files
+function newdir () { mkdir $1; cd $1; }
+
+#grep
+alias grep="grep --color=auto"
+alias pygr="find *.py | xargs -d '\n' grep -in --color=auto"
+
+# development directories
+alias cdsata="cd c/clientvalidation/validation/scripts/SATA_SMART"
+alias cdtrunk="cd /c/ClientValidation/trunktest/"
+
+#help
+alias aliashelp="grep alias ~/.bashrc"
+
+# source bashrc
+alias sb="source ~/.bashrc"
+
+# edit bashrc and source
+alias bashrc="vim ~/.bashrc && source ~/.bashrc"
