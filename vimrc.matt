@@ -1,0 +1,172 @@
+"{{{Misc Settings
+
+set nocompatible
+
+" This shows what you are typing as a command.
+set showcmd
+
+" Folding Stuffs
+set foldmethod=marker
+
+" Needed for Syntax Highlighting and stuff
+filetype on
+filetype plugin on
+syntax enable
+set grepprg=grep\ -nH\ $*
+
+set autoindent
+
+set expandtab
+set smarttab
+
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+
+" Real men use gcc
+compiler gcc
+
+" Cool tab completion stuff
+set wildmenu
+set wildmode=list:longest,full
+
+" Enable mouse support in console
+set mouse=a
+
+set backspace=2
+
+" Line Numbers 
+set number
+
+set ignorecase
+
+set smartcase
+
+set incsearch
+
+set hlsearch
+
+set nohidden
+
+" Set off the other paren
+highlight MatchParen ctermbg=4
+" }}}
+
+"{{{Look and Feel
+
+set t_Co=256
+
+colorscheme elflord
+
+"Status line gnarliness
+set laststatus=2
+set statusline=%F%m%r%h%w\ (%{&ff}){%Y}\ [%l,%v][%p%%]
+
+" Change the Pmenu colors
+highlight Pmenu ctermbg=blue gui=bold
+highlight Pmenu ctermfg=black gui=bold
+"highlight Pmenu ctermfg=2 ctermbg=3 guifg=#ffffff guibg=#0000ff
+" YouCompleteMe
+nnoremap de :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_confirm_extra_conf = 0
+
+highlight ErrorMsg ctermbg=blue ctermfg=white
+highlight SpellBad ctermbg=blue ctermfg=white
+highlight YcmErrorSection ctermbg=blue ctermfg=white
+
+" }}}
+
+"{{{ Functions
+
+
+"{{{Theme Rotating
+let themeindex=0
+function! RotateColorTheme()
+   let y = -1
+   while y == -1
+      let colorstring = "inkpot#ron#blue#elflord#evening#koehler#murphy#pablo#desert#torte#"
+      let x = match( colorstring, "#", g:themeindex )
+      let y = match( colorstring, "#", x + 1 )
+      let g:themeindex = x + 1
+      if y == -1
+         let g:themeindex = 0
+      else
+         let themestring = strpart(colorstring, x + 1, y - x - 1)
+         return ":colorscheme ".themestring
+      endif
+   endwhile
+endfunction
+" }}}
+
+"{{{ Paste Toggle
+let paste_mode = 0 " 0 = normal, 1 = paste
+
+func! Paste_on_off()
+   if g:paste_mode == 0
+      set paste
+      let g:paste_mode = 1
+   else
+      set nopaste
+      let g:paste_mode = 0
+   endif
+   return
+endfunc
+"}}}
+
+"}}}
+
+"{{{ Mappings
+
+" Next Tab
+nnoremap <silent> <C-Right> :tabnext<CR>
+
+" Previous Tab
+nnoremap <silent> <C-Left> :tabprevious<CR>
+
+" New Tab
+nnoremap <silent> <C-t> :tabnew<CR>
+
+" ctags
+set tags=./tags;/
+nnoremap <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
+" Rotate Color Scheme <F8>
+nnoremap <silent> <F8> :execute RotateColorTheme()<CR>
+
+" Remove DOS line endings
+nnoremap <silent> <F9> :%s/$//g<CR>:%s// /g<CR>
+
+" Paste Mode! <F10>
+nnoremap <silent> <F10> :call Paste_on_off()<CR>
+set pastetoggle=<F10>
+
+" Edit vimrc \ev
+nnoremap <silent> <Leader>ev :tabnew<CR>:e ~/.vimrc<CR>
+
+nnoremap <silent> k gk
+nnoremap <silent> j gj
+inoremap <silent> <Up> <Esc>gka
+inoremap <silent> <Down> <Esc>gja
+
+nnoremap <silent> <Home> i <Esc>r
+nnoremap <silent> <End> a <Esc>r
+
+" Create Blank Newlines and stay in Normal mode
+nnoremap <silent> zj o<Esc>
+nnoremap <silent> zk O<Esc>
+
+" Space will toggle folds
+nnoremap <space> za
+
+" Search mappings: These will make it so that going to the next one in a
+" search will center on the line it's found in.
+map N Nzz
+map n nzz
+
+" Testing
+set completeopt=longest,menuone,preview
+
+"}}}
+

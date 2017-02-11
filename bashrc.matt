@@ -1,0 +1,14 @@
+
+
+# My environment variables
+export RPI=mrmarkwell@192.168.2.220
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+
+# My aliases
+alias cdd='cd ~/dev'
+alias sshpi='ssh $RPI'
+alias sb='source ~/.bashrc'
+alias ls='ls -GFh'
+
+
