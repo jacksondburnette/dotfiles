@@ -26,3 +26,8 @@ $ bash bootstrap
 ```
 bashrc.symlink results in a .bashrc in the $HOME directory.
 
+## Thanks
+
+This project was inspired by @holman [dotfile] (https://github.com/holman/dotfiles). Specifically,
+`bootstrap` (with some manipulation) was taken directly from that project.
+
