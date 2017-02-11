@@ -11,10 +11,6 @@ function newdir () { mkdir $1; cd $1; }
 alias grep="grep --color=auto"
 alias pygr="find *.py | xargs -d '\n' grep -in --color=auto"
 
-# development directories
-alias cdsata="cd c/clientvalidation/validation/scripts/SATA_SMART"
-alias cdtrunk="cd /c/ClientValidation/trunktest/"
-
 #help
 alias aliashelp="grep alias ~/.bashrc"
 
