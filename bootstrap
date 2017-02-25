@@ -1,14 +1,23 @@
 #!/usr/bin/env bash
 #
-# bootstrap, in the dotfiles directory establishes symlinks in
-# the $HOME directory (make sure dotfiles directory is in your
-# $HOME directory) of form .basename of files in the dotfiles
-# directory with form basenmae.symlink. This allows the dotfiles
-# directory to be your one-stop-shop for all dotfiles that belong
-# in the $HOME directory.
+# bootstrap serves as a onetime manager for stitching a profile
+# of dotfiles together.
+# The files will have the naming convention basefile.profile
+# Run bootstrap with an arbitrary number of profiles
+# (3 profile example below),
+#    $ ./boostrap profile3 profile2 profile1
+# This will cause .basename files to be created with profile1
+# appended to profile2 appended to profile3. In this way profile3
+# will act as a base (i.e. general) dotfile with profile2 overriding
+# any common attributes in profile3 and profile1 doing the same in
+# profile2. This could be usefule if there are some general settings
+# which can be shared accross users and then team specific profiles
+# and/or user specific profiles
 
-cd "$(dirname "$0")/.."
-DOTFILES_ROOT=$(pwd -P)
+cd "$(dirname "$0")"
+DOTFILES_ROOT=$HOME
+profiles="$@"
+declare -a dotfiles
 
 set -e
 
@@ -32,91 +41,69 @@ fail () {
   exit
 }
 
-link_file () {
-  local src=$1 dst=$2
+install_dotfiles () {
+  info 'installing dotfiles'
+  for prf in $profiles
+  do
+    setup $prf
+  done
+  transfer
+}
 
-  local overwrite= backup= skip=
-  local action=
-
-  if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
+transfer () {
+  unique_dotfiles=$(printf "%s\n" "${dotfiles[@]}" | sort -u | tr "\n" " ")
+  for dotfile in $unique_dotfiles
+  do
+    perm="$HOME/$dotfile"
+    if [ -f $perm -o -d $perm -o -L $perm ]
+    then
+      backup $perm
+    fi
+    mv "$dotfile" "$perm"
+  if [ -f "$perm" -o -d "$perm" -o -L "$perm" ] 
   then
-
-    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
-    then
-
-      local currentSrc="$(readlink $dst)"
-
-      if [ "$currentSrc" == "$src" ]
-      then
-
-        skip=true;
-
-      else
-
-        user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
-        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
-        read -n 1 action
-
-        case "$action" in
-          o )
-            overwrite=true;;
-          O )
-            overwrite_all=true;;
-          b )
-            backup=true;;
-          B )
-            backup_all=true;;
-          s )
-            skip=true;;
-          S )
-            skip_all=true;;
-          * )
-            ;;
-        esac
-
-      fi
-
-    fi
-
-    overwrite=${overwrite:-$overwrite_all}
-    backup=${backup:-$backup_all}
-    skip=${skip:-$skip_all}
-
-    if [ "$overwrite" == "true" ]
-    then
-      rm -rf "$dst"
-      success "removed $dst"
-    fi
-
-    if [ "$backup" == "true" ]
-    then
-      mv "$dst" "${dst}.backup"
-      success "moved $dst to ${dst}.backup"
-    fi
-
-    if [ "$skip" == "true" ]
-    then
-      success "skipped $src"
-    fi
+    success "created $perm"
+  else
+    fail "could not create $perm"
   fi
+  done
+}
 
-  if [ "$skip" != "true" ]  # "false" or empty
+setup () {
+  local prf=$1
+  info "setup $prf"
+  addons=$(find *.$prf)
+  for addon in $addons
+  do
+    # cut base.prf into .base
+    dot=".$(echo "$addon" | cut -d . -f 1)"
+    dotfiles+=("$dot")
+    append $dot $addon
+  done
+}
+
+append () {
+  local base=$1 addon=$2
+  info "appending $addon to $base"
+  cat "$addon" >> "$base"
+  if [ -f "$base" -o -d "$base" -o -L "$base" ] 
   then
-    ln -s "$1" "$2"
-    success "linked $1 to $2"
+    success "appended $addon to $base"
+  else
+    fail "could not append $addon to $base"
   fi
 }
 
-install_dotfiles () {
-  info 'installing dotfiles'
-
-  local overwrite_all=false backup_all=false skip_all=false
-
-  for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
-  do
-    dst="$HOME/.$(basename "${src%.*}")"
-    link_file "$src" "$dst"
-  done
+backup () {
+  local oldfile=$1
+  info "backing up $oldfile"
+  mv "$oldfile" "$oldfile.backup"
+  if [ -f "$oldfile.backup" -o -d "$oldfile.backup" -o -L "$oldfile.backup" ] 
+  then
+    success "backed up $oldfile as $oldfile.backup"
+  else
+    fail "could not back up $oldfile"
+  fi
 }
 
 install_dotfiles
