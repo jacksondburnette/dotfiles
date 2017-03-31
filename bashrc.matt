@@ -1,14 +1,16 @@
-
-
-# My environment variables
-export RPI=mrmarkwell@192.168.2.220
+# Env Vars
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
+#export DEV="...fill this in..."
+#export GIT="...path to repositories..."
 
-# My aliases
-alias cdd='cd ~/dev'
-alias sshpi='ssh $RPI'
+# Aliases
+alias aliashelp="cat ~/.bashrc | grep alias"
 alias sb='source ~/.bashrc'
+alias grep="grep -I --color --exclude-dir='.svn' --exclude-dir='.git'"
+alias mypip="python -m pip install --index-url=http://pypi.python.org/simple --trusted-host pypi.python.org"
+alias gr="find . -name '*.cs' | xargs -d '\n' grep" # Grep C# Source
 alias ls='ls -GFh'
-
-
+#alias cdd='$DEV'
+#alias cdg="cd $GIT"
+#alias npp="/c/Progra~2/Notepad++/notepad++.exe"

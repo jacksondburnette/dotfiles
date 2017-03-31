@@ -136,7 +136,7 @@ nnoremap <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 nnoremap <silent> <F8> :execute RotateColorTheme()<CR>
 
 " Remove DOS line endings
-nnoremap <silent> <F9> :%s/$//g<CR>:%s// /g<CR>
+nnoremap <silent> <F9> :%s///g<CR>
 
 " Paste Mode! <F10>
 nnoremap <silent> <F10> :call Paste_on_off()<CR>
