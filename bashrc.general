@@ -7,11 +7,14 @@ alias ll="ls -la --color=auto"       # long list format
 alias l.="ls -ld .* --color=auto"    # show hidden files
 function newdir () { mkdir $1; cd $1; }
 
-#grep
+# grep
 alias grep="grep --color=auto"
 alias pygr="find *.py | xargs -d '\n' grep -in --color=auto"
 
-#help
+# find
+function peep () { find $1 | xargs less; }
+
+# help
 alias aliashelp="grep alias ~/.bashrc"
 
 # source bashrc
