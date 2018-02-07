@@ -1,29 +1,36 @@
 [user]
 	name = Jackson Burnette
 	email = jackson.d.burnette@intel.com
-[http]
-	proxy = http://proxy-chain.intel.com:911
 [core]
 	autocrlf = true
-[diff]
-	tool = bc3
-[difftool "bc3"]
-	path = c:/Program Files (x86)/Beyond Compare 3/bcomp.exe
-[gui]
-	recentrepo = C:/Users/jdburnet/evergreendb
 [alias]
-	pgl = log --graph --format=format:'%C(auto)%h %C(blue)%<(30)%ce%C(green)%<(7)%cd%C(auto)%d %C(reset)%s' --date=format:'%yww%W%a'
-	gl = log --graph
-	dl = log --decorate
-	ol = log --oneline
-	dog = log --decorate --oneline --graph
+	logline = log --oneline --decorate --graph
+	ll = log --graph --oneline --decorate -10
+	lll = log --graph --oneline --decorate -22
+	plog = log --graph --format=format:'%C(auto)%h %C(blue)%cn %C(green)%<(7)%cd%C(auto)%d %C(reset)%<(100,trunc)%s' --date=format:'%yww%W%a'
+	pl = !git plog -8
+	pll = !git plog -22
 	co = checkout
-	ci = commit
+	c = commit
 	cm = commit -m
 	ca = commit -a
 	cam = commit -a -m
 	st = status
 	cob = checkout -b
 	caa = commit -a --amend
-	bl = branch -l
 	br = branch
+	bla = branch -l -a
+	aa = add --all
+	dc = diff --cached
+	df = diff
+	unstage = reset HEAD
+	# cherry-pit does the opposite of cherry-pick (get it?)
+	#  it removes the specified commit on the current branch
+	cherry-pit = !bash -c 'git rebase --onto $1^ $1'
+	caan = commit -a --amend --no-edit
+	r = rebase
+	ri = rebase -i
+	##################
+	aliases = !git config -l | grep alias | cut -c 7-
+[pull]
+	rebase = true
