@@ -7,7 +7,7 @@
 	logline = log --oneline --decorate --graph
 	ll = log --graph --oneline --decorate -10
 	lll = log --graph --oneline --decorate -22
-	plog = log --graph --format=format:'%C(auto)%h %C(blue)%cn %C(green)%<(7)%cd%C(auto)%d %C(reset)%<(100,trunc)%s' --date=format:'%yww%W%a'
+	plog = log --graph --format=format:'%C(auto)%h %C(blue)%an %C(green)%<(7)%cd%C(auto)%d %C(reset)%<(100,trunc)%s' --date=format:'%yww%W%a'
 	pl = !git plog -8
 	pll = !git plog -22
 	co = checkout
