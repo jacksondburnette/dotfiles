@@ -1,6 +1,3 @@
-[user]
-	name = Jackson Burnette
-	email = jackson.d.burnette@intel.com
 [core]
 	autocrlf = true
 [alias]
