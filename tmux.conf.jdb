@@ -1,0 +1,41 @@
+# setting prefix from C-b to C-a
+set -g prefix C-a
+# free original C-b prefix keybinding
+unbind C-b
+
+# setting the delay between prefix and command
+set -s escape-time 1
+
+# set the base index for windows to 1 instead of 0
+set -g base-index 1
+# set base index for panes to 1 instead of 0
+set -g pane-base-index 1
+
+# PREFIX r will reload (i.e. source) this file
+bind r source-file ~/.tmux.conf \; display "tmux config reloaded!"
+
+# ensure that C-a can be sent to other apps
+bind C-a send-prefix
+
+# split windows with | and -
+bind | split-window -h
+bind - split-window -v
+
+# moving between panes with PREFIX h, j, k and l
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# quick window selection
+bind -r C-h select-window -t :-
+bind -r C-l select-window -t :+
+
+# resize panes with PREFIX H, J, K and L
+bind -r H resize-pane -L 5
+bind -r J resize-pane -D 5
+bind -r K resize-pane -U 5
+bind -r L resize-pane -R 5
+
+# set default terminal mode to 256color
+set -g default-terminal "screen-256-color"
