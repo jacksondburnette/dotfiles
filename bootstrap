@@ -75,8 +75,9 @@ setup () {
   addons=$(find *.$prf)
   for addon in $addons
   do
-    # cut base.prf into .base
-    dot=".$(echo "$addon" | cut -d . -f 1)"
+    # rev, cut based on delim and remove first field, rev again
+    # results in removing the profile name only
+    dot=".$(echo "$addon" | rev | cut -d . -f 2- | rev)"
     dotfiles+=("$dot")
     append $dot $addon
   done
@@ -97,10 +98,10 @@ append () {
 backup () {
   local oldfile=$1
   info "backing up $oldfile"
-  mv "$oldfile" "$oldfile.backup"
-  if [ -f "$oldfile.backup" -o -d "$oldfile.backup" -o -L "$oldfile.backup" ] 
+  mv "$oldfile" "$oldfile.bak"
+  if [ -f "$oldfile.bak" -o -d "$oldfile.bak" -o -L "$oldfile.bak" ]
   then
-    success "backed up $oldfile as $oldfile.backup"
+    success "backed up $oldfile as $oldfile.bak"
   else
     fail "could not back up $oldfile"
   fi
