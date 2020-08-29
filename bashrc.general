@@ -22,3 +22,5 @@ alias sb="source ~/.bashrc"
 
 # edit bashrc and source
 alias bashrc="vim ~/.bashrc && source ~/.bashrc"
+
+alias cdr="cd ~/repos"

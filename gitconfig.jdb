@@ -1,35 +1,39 @@
 [core]
-	autocrlf = true
+    autocrlf = input
+    excludesfile = ~/.gitignore
 [alias]
-	logline = log --oneline --decorate --graph
-	ll = log --graph --oneline --decorate -10
-	lll = log --graph --oneline --decorate -22
-	plog = log --graph --format=format:'%C(auto)%h %C(blue)%an %C(green)%<(7)%cd%C(auto)%d %C(reset)%<(100,trunc)%s' --date=format:'%yww%W%a'
-	pl = !git plog -8
-	pll = !git plog -22
-	co = checkout
-	c = commit
-	cm = commit -m
-	ca = commit -a
-	cam = commit -a -m
-	st = status
-	cob = checkout -b
-	caa = commit -a --amend
-	br = branch
-	bla = branch -l -a
-	aa = add --all
-	dc = diff --cached
-	df = diff
-	unstage = reset HEAD
-	# cherry-pit does the opposite of cherry-pick (get it?)
-	#  it removes the specified commit on the current branch
-	cherry-pit = !bash -c 'git rebase --onto $1^ $1'
-	caan = commit -a --amend --no-edit
-	r = rebase
-	ri = rebase -i
-	##################
-	aliases = !git config -l | grep alias | cut -c 7-
+    logline = log --oneline --decorate --graph
+    ll = log --graph --oneline --decorate -10
+    lll = log --graph --oneline --decorate -22
+    co = checkout
+    c = commit
+    st = status
+    sts = status -sb
+    cam = commit --amend
+    can = commit --amend --no-edit
+    br = branch
+    bla = branch -l -a
+    au = add -u
+    ap = add -p
+    dc = diff --cached
+    df = diff
+    pf = push --force-with-lease
+    sw = switch
+    swc = switch -c
+    swd = switch -d
+    ri = rebase -i
+    rc = rebase --continue
+    ra = rebase --abort
+    unstage = reset HEAD
+    # cherry-pit does the opposite of cherry-pick (get it?)
+    #  it removes the specified commit on the current branch
+    cherry-pit = !bash -c 'git rebase --onto $1^ $1'
+    cp = cherry-pick
+    cpc = cherry-pick --continue
+    cpa = cherry-pick --abort
+    ##################
+    aliases = !git config -l | grep alias | cut -c 7-
 [pull]
-	rebase = true
+    rebase = true
 [color]
-	ui = auto
+    ui = auto

@@ -13,29 +13,14 @@ set foldlevel=99
 " Enable folding with the spacebar
 nnoremap <space> za
 
-" show docstring with SimplyFold plugin
-let g:SimpylFold_docstring_preview=1
-
 " general
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
 set autoindent
 set fileformat=unix
 
-" Python: PEP8 indentation
-au BufNewFile,BufRead *.py set tabstop=4
-au BufNewFile,BufRead *.py set softtabstop=4
-au BufNewFile,BufRead *.py set shiftwidth=4
-au BufNewFile,BufRead *.py set expandtab
-au BufNewFile,BufRead *.py set autoindent
-au BufNewFile,BufRead *.py set fileformat=unix 
-
-" full stack indentation
-au BufNewFile,BufRead *.js, *.html, *.css set tabstop=2
-au BufNewFile,BufRead *.js, *.html, *.css set softtabstop=2 
-au BufNewFile,BufRead *.js, *.html, *.css set shiftwidth=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
 
 set encoding=utf-8
 
@@ -45,3 +30,39 @@ syntax on
 " turn on line numbers
 set nu
 
+" color schemes
+"colo slate
+"colo evening
+"colo torte
+colo industry
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source ~/.vimrc
+endif
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'https://github.com/junegunn/vim-easy-align'
+Plug 'https://github.com/airblade/vim-gitgutter'
+"Plug 'https://github.com/itchyny/lightline.vim'
+Plug 'https://github.com/vim-airline/vim-airline'
+Plug 'https://github.com/vim-airline/vim-airline-themes'
+Plug 'https://github.com/preservim/tagbar'
+Plug 'https://github.com/dracula/vim'
+Plug 'https://github.com/tpope/vim-fugitive'
+Plug 'https://github.com/tpope/vim-rhubarb'
+Plug 'https://github.com/junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'https://github.com/junegunn/fzf.vim'
+
+call plug#end()
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+" set quick update time for gitgutter
+set updatetime=100
